@@ -3,8 +3,10 @@ package com.example.android_assignment_7.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.android_assignment_7.R
 import com.example.android_assignment_7.api.models.User
 
@@ -31,6 +33,8 @@ class UsersRecyclerAdapter : RecyclerView.Adapter<UsersRecyclerAdapter.UserViewH
     class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(user: User) {
             itemView.findViewById<TextView>(R.id.name).text = "${user.firstName} ${user.lastName}"
+            val imageView = itemView.findViewById<ImageView>(R.id.imageView)
+            Glide.with(itemView.context).load(user.avatar).into(imageView)
         }
     }
 

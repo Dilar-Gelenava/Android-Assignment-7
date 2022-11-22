@@ -15,19 +15,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         RestClient.getRetrofit()
-        RestClient.reqResService.getUsers(1, 10).enqueue(object : retrofit2.Callback<ReqResData<List<User>>> {
-            override fun onResponse(call: retrofit2.Call<ReqResData<List<User>>>,
-                                    response: retrofit2.Response<ReqResData<List<User>>>) {
-                Log.d("MainActivity", "onResponse: ${response.body()?.data}")
-                val data = response.body()?.data
-                if (data != null) {
-                    initAdapter(data)
+
+        initUsers()
+    }
+
+    private fun initUsers() {
+        RestClient.reqResService.getUsers(1, 12)
+            .enqueue(object : retrofit2.Callback<ReqResData<List<User>>> {
+                override fun onResponse(
+                    call: retrofit2.Call<ReqResData<List<User>>>,
+                    response: retrofit2.Response<ReqResData<List<User>>>
+                ) {
+                    Log.d("MainActivity", "onResponse: ${response.body()?.data}")
+                    val data = response.body()?.data
+                    if (data != null) {
+                        initAdapter(data)
+                    }
                 }
-            }
-            override fun onFailure(call: retrofit2.Call<ReqResData<List<User>>>, t: Throwable) {
-                Log.d("MainActivity", "onFailure: ${t.message}")
-            }
-        })
+                override fun onFailure(call: retrofit2.Call<ReqResData<List<User>>>, t: Throwable) {
+                    Log.d("MainActivity", "onFailure: ${t.message}")
+                }
+            })
     }
 
     fun initAdapter(users: List<User>) {
